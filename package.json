@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@gltf-transform/core": "^4.3.0",
-    "@react-three/drei": "^9.97.0",
-    "@react-three/fiber": "^8.15.16",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
     "colord": "^2.9.3",
     "file-saver": "^2.0.5",
     "html-to-image": "^1.11.11",
