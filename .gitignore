@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+package-lock.json
 
 # Editor directories and files
 .vscode/*
@@ -33,3 +34,7 @@ dist-ssr
 # AI
 .claude
 .kilocode
+plans
+
+# Models
+public/models/download

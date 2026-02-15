@@ -9,7 +9,6 @@ const navigation = [
   { name: 'Color Theory', href: '/color' },
   { name: 'Reference Search', href: '/reference' },
   { name: 'Light Reference', href: '/light' },
-  { name: 'Pose Creator', href: '/pose' },
 ];
 
 export const Header = () => {

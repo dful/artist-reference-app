@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Palette, Image, ArrowRight, Sparkles, Eye, Download, Heart, Sun, User } from 'lucide-react';
+import { Palette, Image, ArrowRight, Sparkles, Eye, Download, Sun } from 'lucide-react';
 import { Button, Card, CardContent } from '../components/common';
 import { APP_NAME } from '../utils/constants';
 
@@ -25,20 +25,12 @@ const features = [
     link: '/light',
     color: 'from-amber-500 to-orange-500',
   },
-  {
-    icon: User,
-    title: 'Pose Creator',
-    description: 'Create custom poses by articulating a rigged human model. Export for light reference.',
-    link: '/pose',
-    color: 'from-purple-500 to-violet-500',
-  },
 ];
 
 const highlights = [
   { icon: Sparkles, text: 'Interactive color wheel with harmonies' },
   { icon: Eye, text: 'WCAG contrast checker for accessibility' },
   { icon: Sun, text: '3D light reference studio' },
-  { icon: User, text: 'Custom pose creator with export' },
   { icon: Download, text: 'Export palettes to CSS, JSON, PNG' },
 ];
 
@@ -76,18 +68,11 @@ export const HomePage = () => {
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </Link>
-          <Link to="/pose">
-            <Button variant="secondary" size="lg">
-              <User className="w-5 h-5 mr-2" />
-              Pose Creator
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Link>
         </div>
       </div>
 
       {/* Feature cards */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map((feature) => (
           <Link key={feature.title} to={feature.link}>
             <Card hover className="h-full">
@@ -116,7 +101,7 @@ export const HomePage = () => {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
           Everything you need
         </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {highlights.map((item) => (
             <div
               key={item.text}
@@ -155,11 +140,6 @@ export const HomePage = () => {
           <Link to="/light">
             <Button variant="secondary">
               Light Studio
-            </Button>
-          </Link>
-          <Link to="/pose">
-            <Button variant="secondary">
-              Pose Creator
             </Button>
           </Link>
         </div>
