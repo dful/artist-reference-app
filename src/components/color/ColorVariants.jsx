@@ -20,7 +20,7 @@ export const ColorVariants = () => {
             title={color}
           >
             <div
-              className="w-10 h-10 rounded-lg shadow-sm group-hover:scale-110 transition-transform border border-gray-200/50 dark:border-gray-600/50"
+              className="w-10 h-10 rounded-lg shadow-xs group-hover:scale-110 transition-transform border border-gray-200/50 dark:border-gray-600/50"
               style={{ backgroundColor: color }}
             />
           </button>

@@ -59,7 +59,7 @@ export const ColorConverter = () => {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleConvert()}
             placeholder="e.g., #3B82F6, rgb(59, 130, 246), blue"
-            className="flex-1 px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="flex-1 px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-hidden focus:ring-2 focus:ring-primary-500"
           />
           <Button variant="primary" onClick={handleConvert}>
             <RefreshCw className="w-4 h-4 mr-2" />

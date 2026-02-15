@@ -48,7 +48,7 @@ export const ColorPicker = () => {
             <HexColorInput
               color={currentColor}
               onChange={handleColorChange}
-              className="flex-1 px-2 py-2 bg-transparent outline-none font-mono uppercase"
+              className="flex-1 px-2 py-2 bg-transparent outline-hidden font-mono uppercase"
             />
           </div>
         </div>

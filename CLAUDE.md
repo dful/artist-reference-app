@@ -20,12 +20,13 @@ npm run lint     # Run ESLint
 This is an Artist Reference Web App with three main features: Color Theory tools, Unsplash image search, and Light Reference (3D).
 
 ### Tech Stack
-- **React 18** + **Vite** for build
-- **Tailwind CSS** with dark mode (`class` strategy)
-- **Zustand** for state management with localStorage persistence
+- **React 19** + **Vite 6** for build
+- **Tailwind CSS v4** with dark mode (`class` strategy via `@variant dark`)
+- **Zustand 5** for state management with localStorage persistence
 - **colord** for color manipulation (with harmonies, a11y, mix plugins)
 - **unsplash-js** for image search API
-- **React Three Fiber** + **@react-three/drei** for 3D rendering (Light Reference feature)
+- **React Three Fiber 9** + **@react-three/drei 10** for 3D rendering (Light Reference feature)
+- **React Router 7** for routing
 
 ### Key Patterns
 
@@ -43,6 +44,7 @@ Stores use `zustand/middleware` persist for localStorage sync with keys defined 
 - `components/layout/` - App shell (Header with nav, Layout with router Outlet, ThemeToggle)
 - `components/color/` - Color theory tools (ColorWheel, ColorPicker, ColorHarmonies, etc.)
 - `components/reference/` - Image search components (SearchBar, ImageGrid, ImageCard, etc.)
+- `components/light-reference/` - 3D scene components (Scene3D, HumanModel, LightControls, etc.)
 
 **Routing (React Router in App.jsx):**
 - `/` - HomePage with feature cards
@@ -77,13 +79,14 @@ Key exports:
 - `STORAGE_KEYS` - localStorage keys for all persisted stores
 - `BUILT_IN_MODELS` - 3D model definitions (id, name, path, thumbnail, category)
 - `MODEL_CONSTRAINTS` - Max file size (50MB), allowed extensions (.glb, .gltf)
-- `BUILT_IN_MODELS` - Predefined 3D model configurations
 
-### Styling Conventions
+### Styling Conventions (Tailwind CSS v4)
 
-- Tailwind dark mode uses `.dark` class on `<html>`
-- Custom CSS in `index.css` under `@layer components` for reusable classes
-- Color scheme defined in `tailwind.config.js` with primary/surface/background tokens
+- Theme defined in `src/index.css` using `@theme {}` block
+- Dark mode: `@variant dark (&:where(.dark, .dark *));`
+- Custom colors: `--color-primary-*`, `--color-surface-*`, `--color-background-*`
+- Custom component classes: `.btn`, `.btn-primary`, `.btn-secondary`, `.card`, `.input`
+- **Class changes from v3:** `shadow-sm` → `shadow-xs`, `outline-none` → `outline-hidden`
 
 ### Light Reference (3D Feature)
 
@@ -129,3 +132,8 @@ Key exports:
 - For pure lighting study, remove Environment to eliminate default illumination
 - With Environment removed, only ambient + spot lights affect the model
 - Set ambient intensity to 0 for true darkness when all lights are off
+
+### ESLint Configuration
+
+- Uses ESLint 9 with flat config (`eslint.config.js`)
+- React Three Fiber properties are allowed (rule `react/no-unknown-property` is disabled for R3F compatibility)

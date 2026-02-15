@@ -26,7 +26,7 @@ export const Input = ({
           border-gray-200 dark:border-gray-600
           text-gray-900 dark:text-gray-100
           placeholder-gray-400 dark:placeholder-gray-500
-          focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
+          focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-transparent
           transition-all duration-200
           ${Icon ? 'pl-10' : ''}
           ${error ? 'border-red-500 focus:ring-red-500' : ''}
@@ -63,7 +63,7 @@ export const TextArea = ({
           border-gray-200 dark:border-gray-600
           text-gray-900 dark:text-gray-100
           placeholder-gray-400 dark:placeholder-gray-500
-          focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
+          focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-transparent
           transition-all duration-200 resize-none
           ${error ? 'border-red-500 focus:ring-red-500' : ''}
           ${className}
