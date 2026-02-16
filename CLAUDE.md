@@ -17,7 +17,7 @@ npm run lint     # Run ESLint
 
 ## Architecture
 
-This is an Artist Reference Web App with three main features: Color Theory tools, Unsplash image search, and Light Reference (3D).
+This is an Artist Reference Web App with four main features: Color Theory tools, Unsplash image search, Light Reference (3D), and Pose Creator.
 
 ### Tech Stack
 - **React 19** + **Vite 6** for build
@@ -36,6 +36,7 @@ This is an Artist Reference Web App with three main features: Color Theory tools
 - `favoritesStore` - Saved reference images
 - `themeStore` - Light/dark mode toggle
 - `lightReferenceStore` - 3D scene lighting, model selection, model position/scale
+- `poseCreatorStore` - Bone rotations, pose presets, skeleton visualization, model transform
 
 Stores use `zustand/middleware` persist for localStorage sync with keys defined in `STORAGE_KEYS`.
 
@@ -45,12 +46,14 @@ Stores use `zustand/middleware` persist for localStorage sync with keys defined 
 - `components/color/` - Color theory tools (ColorWheel, ColorPicker, ColorHarmonies, etc.)
 - `components/reference/` - Image search components (SearchBar, ImageGrid, ImageCard, etc.)
 - `components/light-reference/` - 3D scene components (Scene3D, HumanModel, LightControls, etc.)
+- `components/pose-creator/` - Pose creation components (PoseScene3D, PosableModel, BoneControls, etc.)
 
 **Routing (React Router in App.jsx):**
 - `/` - HomePage with feature cards
 - `/color` - ColorTheoryPage with tabbed interface
 - `/reference` - ReferenceSearchPage with search and filters
 - `/light` - LightReferencePage with 3D viewport and lighting controls
+- `/pose` - PoseCreatorPage with 3D pose editor
 
 ### External API
 
@@ -77,8 +80,10 @@ Stores use `zustand/middleware` persist for localStorage sync with keys defined 
 
 Key exports:
 - `STORAGE_KEYS` - localStorage keys for all persisted stores
-- `BUILT_IN_MODELS` - 3D model definitions (id, name, path, thumbnail, category)
-- `MODEL_CONSTRAINTS` - Max file size (50MB), allowed extensions (.glb, .gltf)
+- `BUILT_IN_MODELS` - 3D model definitions for Light Reference (id, name, path, thumbnail, category)
+- `BUILT_IN_POSABLE_MODELS` - Rigged 3D model definitions for Pose Creator
+- `BONE_CONSTRAINTS` - Rotation limits (degrees) for Mixamo skeleton bones
+- `MODEL_CONSTRAINTS` - Max file size (50MB), allowed extensions (.glb, .gltf, .fbx)
 
 ### Styling Conventions (Tailwind CSS v4)
 
@@ -109,11 +114,13 @@ Key exports:
 - `ModelThumbnail.jsx` - Reusable thumbnail component for model selection
 
 **Built-in 3D Models (`public/models/`):**
-- `human-base.glb` - Default human figure
-- `male-body.glb` - Male full body
+- `human-base.glb` - Used by "Male Body" model
 - `female-body.glb` - Female full body
-- `human-head.glb` - Detailed human head
 - Thumbnails in `public/models/thumbnails/`
+
+**BUILT_IN_MODELS configuration:**
+- `male-body` - Uses human-base.glb, no thumbnail
+- `female-body` - Uses female-body.glb with thumbnail
 
 **Custom Model Import:**
 - Users can import .glb/.gltf files (max 50MB)
@@ -137,3 +144,51 @@ Key exports:
 
 - Uses ESLint 9 with flat config (`eslint.config.js`)
 - React Three Fiber properties are allowed (rule `react/no-unknown-property` is disabled for R3F compatibility)
+
+### Pose Creator Feature
+
+**Purpose:** Create custom poses by manipulating a 3D skeleton. Export poses as GLB for Light Reference or PNG as reference image.
+
+**Requirements:**
+- Models must have a skeleton (bones) to be posable
+- Supported formats: GLB/GLTF with embedded skeleton
+- Built-in model placeholder: `rigged-human.glb` (user must provide rigged model)
+- To get rigged models: Download from Mixamo (FBX) → Convert to GLB using Blender
+
+**State Management (`poseCreatorStore`):**
+- `boneRotations` - Object mapping bone names to {x, y, z} rotations in degrees
+- `selectedBone` - Currently selected bone for editing
+- `showSkeleton` - Toggle skeleton wireframe visualization
+- `savedPoses` - Array of user-saved poses with boneRotations
+- `selectedModelId` - Currently selected model ('rigged-human' or custom)
+- `customPosableModels` - User-imported rigged models
+
+**Bone Naming Convention:**
+- Mixamo via Blender export: `mixamorigBoneName` (NO colon)
+- Examples: `mixamorigHips`, `mixamorigLeftArm`, `mixamorigHead`
+- Bone names must match exactly for pose presets to work
+
+**3D Component Organization (`components/pose-creator/`):**
+- `PoseScene3D.jsx` - Main canvas, camera, orbit controls
+- `PosableModel.jsx` - Loads GLB models, finds bones, applies rotations
+- `SkeletonVisualizer.jsx` - Wireframe overlay showing skeleton bones
+- `BoneControls.jsx` - X/Y/Z rotation sliders for selected bone
+- `BoneSelector.jsx` - Hierarchical tree view of skeleton bones
+- `ModelSelector.jsx` - Model selection with import button
+- `PosePresetSelector.jsx` - T-Pose, A-Pose, and other presets + save/load
+- `PoseExporter.jsx` - Export to GLB (with pose) or PNG (screenshot)
+
+**Pose Presets:**
+Predefined in `PosePresetSelector.jsx`:
+- T-Pose, A-Pose, Standing, Arms Up, Thinking, Relaxed
+- Custom poses can be saved to localStorage
+
+**Custom Model Import:**
+- Users import GLB files with skeleton via ModelSelector
+- Binary data stored in IndexedDB (reuses `modelStorageService.js`)
+- Model must have bones (isBone nodes) to be posable
+
+**Export:**
+- **GLB:** Bakes pose into static geometry using `createBakedModel()` before exporting. This converts SkinnedMesh to Mesh so transforms work in Light Reference. Uses `skeleton.boneMatrices` for skinning calculation.
+- **PNG:** Captures canvas screenshot as reference image
+

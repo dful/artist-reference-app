@@ -38,7 +38,7 @@ const initialState = {
   showHelpers: true,
   currentPreset: 'studio',
   // Model selection
-  selectedModelId: 'human-base',
+  selectedModelId: 'male-body',
   customModels: [],
 };
 
@@ -128,7 +128,7 @@ export const useLightReferenceStore = create(
       removeCustomModel: (modelId) => set((state) => ({
         customModels: state.customModels.filter((m) => m.id !== modelId),
         selectedModelId: state.selectedModelId === modelId
-          ? 'human-base'
+          ? 'male-body'
           : state.selectedModelId,
       })),
 
@@ -136,7 +136,7 @@ export const useLightReferenceStore = create(
         const state = get();
         return BUILT_IN_MODELS[modelId] ||
           state.customModels.find((m) => m.id === modelId) ||
-          BUILT_IN_MODELS['human-base'];
+          BUILT_IN_MODELS['male-body'];
       },
 
       // Reset to defaults

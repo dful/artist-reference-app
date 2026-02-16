@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Palette, Image, ArrowRight, Sparkles, Eye, Download, Sun } from 'lucide-react';
+import { Palette, Image, ArrowRight, Sparkles, Eye, Download, Sun, User } from 'lucide-react';
 import { Button, Card, CardContent } from '../components/common';
 import { APP_NAME } from '../utils/constants';
 
@@ -25,13 +25,20 @@ const features = [
     link: '/light',
     color: 'from-amber-500 to-orange-500',
   },
+  {
+    icon: User,
+    title: 'Pose Creator',
+    description: 'Create custom poses by manipulating a 3D skeleton. Export poses for reference.',
+    link: '/pose',
+    color: 'from-purple-500 to-violet-500',
+  },
 ];
 
 const highlights = [
   { icon: Sparkles, text: 'Interactive color wheel with harmonies' },
   { icon: Eye, text: 'WCAG contrast checker for accessibility' },
   { icon: Sun, text: '3D light reference studio' },
-  { icon: Download, text: 'Export palettes to CSS, JSON, PNG' },
+  { icon: User, text: 'Pose Creator for custom references' },
 ];
 
 export const HomePage = () => {
@@ -124,7 +131,7 @@ export const HomePage = () => {
           Ready to create?
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
-          Start exploring colors, find reference images, or study lighting.
+          Start exploring colors, find reference images, study lighting, or create poses.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Link to="/color">
@@ -140,6 +147,11 @@ export const HomePage = () => {
           <Link to="/light">
             <Button variant="secondary">
               Light Studio
+            </Button>
+          </Link>
+          <Link to="/pose">
+            <Button variant="secondary">
+              Pose Creator
             </Button>
           </Link>
         </div>

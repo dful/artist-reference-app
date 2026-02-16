@@ -98,29 +98,23 @@ export const STORAGE_KEYS = {
   RECENT_SEARCHES: "artist-reference-searches",
   LIGHT_REFERENCE: "artist-reference-light",
   CUSTOM_MODELS: "artist-reference-custom-models",
+  POSE_CREATOR: "artist-reference-pose-creator",
 };
 
 // 3D Model constraints
 export const MODEL_CONSTRAINTS = {
   MAX_FILE_SIZE: 50 * 1024 * 1024, // 50MB
-  ALLOWED_EXTENSIONS: [".glb", ".gltf"],
+  ALLOWED_EXTENSIONS: [".glb", ".gltf", ".fbx"],
   THUMBNAIL_SIZE: 128,
 };
 
 // Built-in 3D models for Light Reference
 export const BUILT_IN_MODELS = {
-  "human-base": {
-    id: "human-base",
-    name: "Human Base",
-    path: "/models/human-base.glb",
-    thumbnail: null, // Will show placeholder icon
-    category: "body",
-  },
   "male-body": {
     id: "male-body",
     name: "Male Body",
-    path: "/models/male-body.glb",
-    thumbnail: "/models/thumbnails/male-body.png",
+    path: "/models/human-base.glb",
+    thumbnail: null, // Will show placeholder icon
     category: "body",
   },
   "female-body": {
@@ -130,4 +124,84 @@ export const BUILT_IN_MODELS = {
     thumbnail: "/models/thumbnails/female-body.png",
     category: "body",
   },
+};
+
+// Built-in posable models for Pose Creator
+// Add rigged GLB models here - they must have a skeleton
+export const BUILT_IN_POSABLE_MODELS = {
+  "rigged-human": {
+    id: "rigged-human",
+    name: "Rigged Human",
+    path: "/models/rigged-human.glb",
+    thumbnail: null,
+    category: "built-in",
+  },
+};
+
+// Internal bone corrections for model orientation (NOT editable by user)
+// These compensate for FBX->GLB conversion and model facing direction
+export const BONE_CORRECTIONS = {
+  'mixamorigHips': { x: 180, y: 0, z: 0 },          // Root orientation fix
+  'mixamorigLeftUpLeg': { x: 180, y: 180, z: 0 },   // Leg orientation
+  'mixamorigRightUpLeg': { x: 180, y: 180, z: 0 },  // Leg orientation
+  'mixamorigLeftFoot': { x: 60, y: 0, z: 0 },       // Ankle angle
+  'mixamorigRightFoot': { x: 60, y: 0, z: 0 },      // Ankle angle
+  'mixamorigLeftToeBase': { x: 30, y: 0, z: 0 },    // Toe angle
+  'mixamorigRightToeBase': { x: 30, y: 0, z: 0 },   // Toe angle
+};
+
+// T-Pose shoulder values (establish horizontal arm position)
+export const T_POSE_SHOULDERS = {
+  'mixamorigLeftShoulder': { x: 90, y: 0, z: -90 },
+  'mixamorigRightShoulder': { x: 90, y: 0, z: 90 },
+};
+
+// Bone rotation constraints (in degrees) for Mixamo skeleton
+// Note: Mixamo bone names from Blender export don't have colons
+// Realistic human movement limits
+// In T-Pose: Arm X-=up, X+=down | Z-=forward(right)/back(left), Z+=back(right)/forward(left)
+// ForeArm: X=lateral, Y=rotation, Z-=flexes elbow
+export const BONE_CONSTRAINTS = {
+  // Shoulders - limited since they establish T-Pose base
+  'mixamorigLeftShoulder': { x: [45, 135], y: [-45, 45], z: [-135, -45] },
+  'mixamorigRightShoulder': { x: [45, 135], y: [-45, 45], z: [45, 135] },
+
+  // Arms - X=up/down, Z=forward/back
+  'mixamorigLeftArm': { x: [-90, 90], y: [-90, 90], z: [-90, 90] },
+  'mixamorigRightArm': { x: [-90, 90], y: [-90, 90], z: [-90, 90] },
+
+  // Forearms - elbow flex (mirrored: left uses positive Z, right uses negative Z)
+  'mixamorigLeftForeArm': { x: [-30, 30], y: [-90, 90], z: [0, 145] },   // Z+ = flex
+  'mixamorigRightForeArm': { x: [-30, 30], y: [-90, 90], z: [-145, 0] }, // Z- = flex
+
+  // Hands - limited rotation
+  'mixamorigLeftHand': { x: [-60, 60], y: [-60, 60], z: [-30, 30] },
+  'mixamorigRightHand': { x: [-60, 60], y: [-60, 60], z: [-30, 30] },
+
+  // Legs - human range
+  'mixamorigLeftUpLeg': { x: [-120, 45], y: [-60, 60], z: [-45, 45] },
+  'mixamorigRightUpLeg': { x: [-120, 45], y: [-60, 60], z: [-45, 45] },
+  // Knees - X-=flex (negative = bend knee backward)
+  'mixamorigLeftLeg': { x: [-150, 0], y: [-15, 15], z: [-15, 15] },
+  'mixamorigRightLeg': { x: [-150, 0], y: [-15, 15], z: [-15, 15] },
+
+  // Feet
+  'mixamorigLeftFoot': { x: [-45, 45], y: [-30, 30], z: [-30, 30] },
+  'mixamorigRightFoot': { x: [-45, 45], y: [-30, 30], z: [-30, 30] },
+
+  // Toes
+  'mixamorigLeftToeBase': { x: [-30, 30], y: [0, 0], z: [0, 0] },
+  'mixamorigRightToeBase': { x: [-30, 30], y: [0, 0], z: [0, 0] },
+
+  // Spine - limited flexion
+  'mixamorigSpine': { x: [-30, 30], y: [-30, 30], z: [-20, 20] },
+  'mixamorigSpine1': { x: [-20, 20], y: [-20, 20], z: [-15, 15] },
+  'mixamorigSpine2': { x: [-20, 20], y: [-20, 20], z: [-15, 15] },
+
+  // Neck and Head
+  'mixamorigNeck': { x: [-30, 30], y: [-45, 45], z: [-20, 20] },
+  'mixamorigHead': { x: [-40, 40], y: [-70, 70], z: [-25, 25] },
+
+  // Hips - mainly Y rotation for turning body
+  'mixamorigHips': { x: [-15, 15], y: [-45, 45], z: [-15, 15] },
 };
