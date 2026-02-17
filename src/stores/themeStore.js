@@ -3,6 +3,15 @@ import { persist } from 'zustand/middleware';
 import { STORAGE_KEYS } from '../utils/constants';
 import { useEffect } from 'react';
 
+// Helper to apply theme to DOM
+const applyThemeToDOM = (theme) => {
+  if (theme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+};
+
 export const useThemeStore = create(
   persist(
     (set, get) => ({
@@ -10,24 +19,14 @@ export const useThemeStore = create(
 
       setTheme: (theme) => {
         set({ theme });
-        // Apply to document
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+        applyThemeToDOM(theme);
       },
 
       toggleTheme: () => {
         const { theme } = get();
         const newTheme = theme === 'dark' ? 'light' : 'dark';
         set({ theme: newTheme });
-        // Apply to document
-        if (newTheme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+        applyThemeToDOM(newTheme);
       },
     }),
     {
@@ -38,7 +37,7 @@ export const useThemeStore = create(
 
 // Hook to initialize theme on app load
 export const useThemeInit = () => {
-  const { theme, setTheme } = useThemeStore();
+  const setTheme = useThemeStore((state) => state.setTheme);
 
   useEffect(() => {
     // Apply stored theme or system preference on initial load
@@ -51,7 +50,7 @@ export const useThemeInit = () => {
           setTheme(savedTheme);
           return;
         }
-      } catch (e) {
+      } catch {
         // Ignore parse errors
       }
     }

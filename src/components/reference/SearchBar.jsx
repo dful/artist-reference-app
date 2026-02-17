@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Search, X } from 'lucide-react';
-import { useDebounce } from '../../hooks';
 import { useLocalStorage } from '../../hooks';
 import { STORAGE_KEYS } from '../../utils/constants';
 
@@ -8,8 +7,6 @@ export const SearchBar = ({ onSearch, loading }) => {
   const [query, setQuery] = useState('');
   const [recentSearches, setRecentSearches] = useLocalStorage(STORAGE_KEYS.RECENT_SEARCHES, []);
   const [showRecent, setShowRecent] = useState(false);
-
-  const debouncedQuery = useDebounce(query, 300);
 
   const handleSubmit = (e) => {
     e.preventDefault();

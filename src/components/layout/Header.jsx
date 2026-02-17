@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Palette, Image, Menu, X } from 'lucide-react';
+import { Palette, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { ThemeToggle } from './ThemeToggle';
 import { APP_NAME } from '../../utils/constants';

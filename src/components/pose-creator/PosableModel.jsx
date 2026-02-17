@@ -41,12 +41,9 @@ const GLTFModel = ({ modelPath }) => {
     const bones = collectBones(scene);
     bonesRef.current = bones;
 
-    console.log('Model loaded with', bones.length, 'bones');
-
     // Check for SkinnedMesh
     scene.traverse((child) => {
       if (child.isSkinnedMesh) {
-        console.log('Found SkinnedMesh:', child.name);
         child.castShadow = true;
         child.receiveShadow = true;
       }

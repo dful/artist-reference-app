@@ -97,7 +97,6 @@ export const STORAGE_KEYS = {
   FAVORITES: "artist-reference-favorites",
   RECENT_SEARCHES: "artist-reference-searches",
   LIGHT_REFERENCE: "artist-reference-light",
-  CUSTOM_MODELS: "artist-reference-custom-models",
   POSE_CREATOR: "artist-reference-pose-creator",
 };
 

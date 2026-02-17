@@ -2,7 +2,6 @@ import { Suspense, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { PosableModel } from './PosableModel';
-import { SkeletonVisualizer } from './SkeletonVisualizer';
 import { usePoseCreatorStore } from '../../stores/poseCreatorStore';
 import { BUILT_IN_POSABLE_MODELS } from '../../utils/constants';
 
@@ -72,7 +71,6 @@ const FloorGrid = () => {
 
 export const PoseScene3D = ({ className = '' }) => {
   const canvasRef = useRef();
-  const showSkeleton = usePoseCreatorStore((state) => state.showSkeleton);
   const selectedModelId = usePoseCreatorStore((state) => state.selectedModelId);
 
   return (
@@ -83,7 +81,6 @@ export const PoseScene3D = ({ className = '' }) => {
         <Suspense fallback={<LoadingFallback />}>
           <SceneLights />
           <PosableModel modelId={selectedModelId} />
-          {showSkeleton && <SkeletonVisualizer modelId={selectedModelId} />}
         </Suspense>
 
         <FloorGrid />

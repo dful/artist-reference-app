@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Palette, Image, ArrowRight, Sparkles, Eye, Download, Sun, User } from 'lucide-react';
+import { Palette, Image, ArrowRight, Sparkles, Eye, Sun, User } from 'lucide-react';
 import { Button, Card, CardContent } from '../components/common';
 import { APP_NAME } from '../utils/constants';
 
@@ -72,6 +72,13 @@ export const HomePage = () => {
             <Button variant="secondary" size="lg">
               <Sun className="w-5 h-5 mr-2" />
               Light Studio
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </Link>
+          <Link to="/pose">
+            <Button variant="secondary" size="lg">
+              <User className="w-5 h-5 mr-2" />
+              Pose Creator
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </Link>

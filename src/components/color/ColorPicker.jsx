@@ -1,26 +1,12 @@
 import { HexColorPicker, HexColorInput } from 'react-colorful';
 import { useColorStore } from '../../stores';
-import { useState } from 'react';
-import { parseToHex, getAllFormats } from '../../utils/colorUtils';
+import { getAllFormats } from '../../utils/colorUtils';
 
 export const ColorPicker = () => {
   const { currentColor, setCurrentColor } = useColorStore();
-  const [inputValue, setInputValue] = useState(currentColor);
 
   const handleColorChange = (color) => {
     setCurrentColor(color);
-    setInputValue(color);
-  };
-
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setInputValue(value);
-
-    // Try to parse the color
-    const parsed = parseToHex(value);
-    if (parsed) {
-      setCurrentColor(parsed);
-    }
   };
 
   const formats = getAllFormats(currentColor);

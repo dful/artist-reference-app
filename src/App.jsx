@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Layout } from './components/layout';
-import { HomePage, ColorTheoryPage, ReferenceSearchPage, LightReferencePage, PoseCreatorPage } from './pages';
+import { HomePage, ColorTheoryPage, ReferenceSearchPage, LightReferencePage, PoseCreatorPage, NotFoundPage } from './pages';
 
 function App() {
   return (
@@ -11,6 +11,7 @@ function App() {
         <Route path="reference" element={<ReferenceSearchPage />} />
         <Route path="light" element={<LightReferencePage />} />
         <Route path="pose" element={<PoseCreatorPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );

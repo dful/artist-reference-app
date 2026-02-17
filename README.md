@@ -31,6 +31,15 @@ A web application for artists featuring color theory tools, reference image sear
 - Model position and scale controls
 - Auto-rotation feature
 
+### Pose Creator
+- Create custom poses by manipulating a 3D skeleton
+- Import rigged GLB models (Mixamo-compatible)
+- Bone rotation controls with realistic constraints
+- Pose presets (T-Pose, A-Pose, Standing, etc.)
+- Save and load custom poses
+- Export posed models as GLB (baked geometry)
+- Export pose screenshots as PNG
+
 ## Tech Stack
 
 - **React 19** - UI framework
@@ -99,7 +108,8 @@ src/
 │   ├── layout/          # App shell and navigation
 │   ├── color/           # Color theory tools
 │   ├── reference/       # Image search components
-│   └── light-reference/ # 3D scene components
+│   ├── light-reference/ # 3D light scene components
+│   └── pose-creator/    # Pose creation components
 ├── pages/               # Route pages
 ├── stores/              # Zustand state stores
 ├── services/            # API and storage services
