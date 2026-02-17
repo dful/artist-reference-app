@@ -17,6 +17,13 @@ export const getHarmonies = (hex) => {
   const result = {};
 
   for (const type of harmonyTypes) {
+    // 'square' is not supported by colord harmonies plugin, calculate manually
+    if (type === 'square') {
+      const squareAngles = [0, 90, 180, 270];
+      result['square'] = squareAngles.map(deg => color.rotate(deg).toHex());
+      continue;
+    }
+
     try {
       const harmonies = color.harmonies(type);
       result[type === 'split-complementary' ? 'splitComplementary' : type] =

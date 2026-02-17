@@ -98,6 +98,7 @@ export const STORAGE_KEYS = {
   RECENT_SEARCHES: "artist-reference-searches",
   LIGHT_REFERENCE: "artist-reference-light",
   POSE_CREATOR: "artist-reference-pose-creator",
+  UNSPLASH_API_KEY: "artist-reference-unsplash-api-key",
 };
 
 // 3D Model constraints

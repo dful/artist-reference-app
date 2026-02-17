@@ -1,12 +1,18 @@
 import { createApi } from 'unsplash-js';
-import { UNSPLASH_CONFIG } from '../utils/constants';
+import { UNSPLASH_CONFIG, STORAGE_KEYS } from '../utils/constants';
+
+// Get user-provided API key from localStorage
+const getUserApiKey = () => {
+  return localStorage.getItem(STORAGE_KEYS.UNSPLASH_API_KEY);
+};
 
 // Initialize Unsplash API
 const getUnsplash = () => {
-  const accessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
+  // Priority: localStorage user key > env variable
+  const accessKey = getUserApiKey() || import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 
   if (!accessKey || accessKey === 'your_unsplash_access_key_here') {
-    console.warn('Unsplash API key not configured. Please set VITE_UNSPLASH_ACCESS_KEY in .env file.');
+    console.warn('Unsplash API key not configured. Please set VITE_UNSPLASH_ACCESS_KEY in .env file or provide via UI.');
     return null;
   }
 
@@ -175,6 +181,23 @@ export const transformPhoto = (photo) => ({
 
 // Check if API is configured
 export const isApiConfigured = () => {
-  const accessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
-  return accessKey && accessKey !== 'your_unsplash_access_key_here';
+  const userKey = getUserApiKey();
+  const envKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
+  return !!(userKey || (envKey && envKey !== 'your_unsplash_access_key_here'));
+};
+
+// Check if user has provided their own API key (vs env variable)
+export const hasUserApiKey = () => {
+  return !!getUserApiKey();
+};
+
+// Set or clear user API key
+export const setUserApiKey = (key) => {
+  if (key) {
+    localStorage.setItem(STORAGE_KEYS.UNSPLASH_API_KEY, key);
+  } else {
+    localStorage.removeItem(STORAGE_KEYS.UNSPLASH_API_KEY);
+  }
+  // Reset instance to use new key
+  unsplashInstance = null;
 };

@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Card, CardContent, Button } from '../components/common';
 import { SearchBar, FilterPanel, ImageGrid, ImageModal, FavoritesList } from '../components/reference';
 import { useUnsplash } from '../hooks';
-import { Heart, Search, AlertCircle, ImageOff, Key } from 'lucide-react';
+import { setUserApiKey, hasUserApiKey } from '../services/unsplashService';
+import { Heart, AlertCircle, ImageOff, Key, Eye, EyeOff, Check } from 'lucide-react';
 
 export const ReferenceSearchPage = () => {
   const {
@@ -26,6 +27,31 @@ export const ReferenceSearchPage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [showFavorites, setShowFavorites] = useState(false);
 
+  // API key input state
+  const [apiKeyInput, setApiKeyInput] = useState('');
+  const [showApiKey, setShowApiKey] = useState(false);
+  const [apiKeyError, setApiKeyError] = useState('');
+  const [apiKeySaving, setApiKeySaving] = useState(false);
+
+  const handleSaveApiKey = () => {
+    const trimmedKey = apiKeyInput.trim();
+    if (!trimmedKey) {
+      setApiKeyError('Please enter an API key');
+      return;
+    }
+    setApiKeySaving(true);
+    setApiKeyError('');
+    setUserApiKey(trimmedKey);
+    // Force page reload to re-initialize the API with new key
+    window.location.reload();
+  };
+
+  const handleClearApiKey = () => {
+    setUserApiKey(null);
+    setApiKeyInput('');
+    window.location.reload();
+  };
+
   const handleSearch = (query) => {
     search(query, { ...filters, page: 1 });
   };
@@ -42,7 +68,7 @@ export const ReferenceSearchPage = () => {
     loadMore(filters);
   };
 
-  // API not configured
+  // API not configured - show input form
   if (!isConfigured) {
     return (
       <div className="space-y-6">
@@ -62,19 +88,66 @@ export const ReferenceSearchPage = () => {
               API Key Required
             </h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto mb-6">
-              To use the reference search, you need to configure your Unsplash API key.
+              To use the reference search, enter your Unsplash API key below or configure it in your environment.
             </p>
-            <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 max-w-md mx-auto text-left">
+
+            {/* API Key Input Form */}
+            <div className="max-w-md mx-auto space-y-4">
+              <div className="relative">
+                <input
+                  type={showApiKey ? 'text' : 'password'}
+                  value={apiKeyInput}
+                  onChange={(e) => setApiKeyInput(e.target.value)}
+                  placeholder="Enter your Unsplash Access Key"
+                  className="w-full px-4 py-3 pr-20 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowApiKey(!showApiKey)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  {showApiKey ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+
+              {apiKeyError && (
+                <p className="text-sm text-red-600 dark:text-red-400">{apiKeyError}</p>
+              )}
+
+              <div className="flex gap-3 justify-center">
+                <Button
+                  variant="primary"
+                  onClick={handleSaveApiKey}
+                  disabled={apiKeySaving}
+                >
+                  {apiKeySaving ? (
+                    <span className="flex items-center">
+                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Saving...
+                    </span>
+                  ) : (
+                    <>
+                      <Check className="w-4 h-4 mr-2" />
+                      Save & Continue
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            {/* Setup instructions */}
+            <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 max-w-md mx-auto text-left mt-6">
               <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                <strong>Setup instructions:</strong>
+                <strong>How to get an API key:</strong>
               </p>
               <ol className="text-sm text-gray-600 dark:text-gray-400 space-y-1 list-decimal list-inside">
                 <li>Go to <a href="https://unsplash.com/developers" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">unsplash.com/developers</a></li>
+                <li>Register or log in to your account</li>
                 <li>Create a new application</li>
-                <li>Copy the Access Key</li>
-                <li>Create a <code className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">.env</code> file in the project root</li>
-                <li>Add: <code className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">VITE_UNSPLASH_ACCESS_KEY=your_key</code></li>
-                <li>Restart the dev server</li>
+                <li>Copy the Access Key and paste it above</li>
               </ol>
             </div>
           </CardContent>
@@ -95,13 +168,25 @@ export const ReferenceSearchPage = () => {
             Find the perfect reference images for your artwork
           </p>
         </div>
-        <Button
-          variant={showFavorites ? 'primary' : 'secondary'}
-          onClick={() => setShowFavorites(!showFavorites)}
-        >
-          <Heart className={`w-4 h-4 mr-2 ${showFavorites ? 'fill-current' : ''}`} />
-          Favorites
-        </Button>
+        <div className="flex items-center gap-2">
+          {hasUserApiKey() && (
+            <Button
+              variant="secondary"
+              onClick={handleClearApiKey}
+              title="Clear saved API key"
+            >
+              <Key className="w-4 h-4 mr-2" />
+              Clear Key
+            </Button>
+          )}
+          <Button
+            variant={showFavorites ? 'primary' : 'secondary'}
+            onClick={() => setShowFavorites(!showFavorites)}
+          >
+            <Heart className={`w-4 h-4 mr-2 ${showFavorites ? 'fill-current' : ''}`} />
+            Favorites
+          </Button>
+        </div>
       </div>
 
       {/* Search and filters */}
@@ -113,7 +198,7 @@ export const ReferenceSearchPage = () => {
       {/* Results info */}
       {totalResults > 0 && (
         <div className="text-sm text-gray-500 dark:text-gray-400">
-          Found {totalResults.toLocaleString()} results for "{currentQuery}"
+          Found {totalResults.toLocaleString()} results for &ldquo;{currentQuery}&rdquo;
         </div>
       )}
 
