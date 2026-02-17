@@ -41,7 +41,7 @@ export const ModelSelector = () => {
       </h3>
 
       {/* Built-in models grid */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-3">
         {builtInModels.map((model) => (
           <ModelThumbnail
             key={model.id}
@@ -58,7 +58,7 @@ export const ModelSelector = () => {
           <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
             Custom Models
           </h4>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-3">
             {customModels.map((model) => (
               <ModelThumbnail
                 key={model.id}

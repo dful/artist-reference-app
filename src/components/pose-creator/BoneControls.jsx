@@ -135,7 +135,7 @@ const RotationSlider = ({ axis, value, onChange, constraints, label, disabled })
   const isLocked = min === 0 && max === 0;
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-2">
       <div className="flex items-center justify-between">
         <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
           {axis.toUpperCase()}: {label}
@@ -168,7 +168,7 @@ const RotationSlider = ({ axis, value, onChange, constraints, label, disabled })
 const QuickButton = ({ axis, value, onClick, currentValue }) => (
   <button
     onClick={() => onClick(axis, value)}
-    className={`px-2 py-0.5 text-xs rounded transition-colors
+    className={`px-3 py-1.5 min-h-9 text-xs rounded transition-colors
       ${currentValue === value
         ? 'bg-primary-500 text-white'
         : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300'
@@ -214,7 +214,7 @@ export const BoneControls = () => {
         </h3>
         <button
           onClick={() => resetBone(selectedBone)}
-          className="flex items-center gap-1 px-2 py-1 text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          className="flex items-center gap-1 px-3 py-1.5 min-h-9 text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           title="Reset to T-Pose"
         >
           <RotateCcw className="w-3 h-3" />

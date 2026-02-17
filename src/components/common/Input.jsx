@@ -21,7 +21,7 @@ export const Input = ({
         onChange={onChange}
         placeholder={placeholder}
         className={`
-          w-full px-4 py-2 rounded-lg border
+          w-full px-4 py-3 rounded-lg border min-h-11
           bg-white dark:bg-gray-800
           border-gray-200 dark:border-gray-600
           text-gray-900 dark:text-gray-100
@@ -58,7 +58,7 @@ export const TextArea = ({
         placeholder={placeholder}
         rows={rows}
         className={`
-          w-full px-4 py-2 rounded-lg border
+          w-full px-4 py-3 rounded-lg border
           bg-white dark:bg-gray-800
           border-gray-200 dark:border-gray-600
           text-gray-900 dark:text-gray-100

@@ -21,6 +21,7 @@ This is an Artist Reference Web App with four main features: Color Theory tools,
 
 ### Tech Stack
 - **React 19** + **Vite 6** for build
+- **vite-plugin-pwa** for PWA support (service worker, manifest, offline caching)
 - **Tailwind CSS v4** with dark mode (`class` strategy via `@variant dark`)
 - **Zustand 5** for state management with localStorage persistence
 - **colord** for color manipulation (with harmonies, a11y, mix plugins)
@@ -92,6 +93,52 @@ Key exports:
 - Custom colors: `--color-primary-*`, `--color-surface-*`, `--color-background-*`
 - Custom component classes: `.btn`, `.btn-primary`, `.btn-secondary`, `.card`, `.input`
 - **Class changes from v3:** `shadow-sm` → `shadow-xs`, `outline-none` → `outline-hidden`
+
+### PWA Configuration
+
+**PWA Plugin (`vite.config.js`):**
+- Uses `vite-plugin-pwa` with auto-update registration
+- Manifest includes app name, icons (192x192, 512x512), theme colors
+- Standalone display mode for full-screen experience
+
+**Service Worker Caching:**
+- Static assets (JS, CSS, HTML, GLB models) - precached
+- Google Fonts stylesheets and webfonts - CacheFirst, 1 year
+- Unsplash images - NetworkOnly (not cached)
+
+**PWA Icons (`public/`):**
+- `pwa-192x192.png` - Android icon
+- `pwa-512x512.png` - Android splash screen
+- `apple-touch-icon.png` - iOS home screen (180x180)
+
+**iOS PWA Meta Tags (`index.html`):**
+- `apple-mobile-web-app-capable` - Enables standalone mode
+- `apple-mobile-web-app-status-bar-style: black-translucent` - Status bar appearance
+- `apple-mobile-web-app-title` - Home screen title
+- `viewport-fit=cover` - Full screen on notched devices
+
+### Touch Optimization
+
+**Minimum Touch Targets (44px):**
+- `Button.jsx` - `min-h-11` on all sizes
+- `Toggle.jsx` - `h-7 w-14` (28x56px)
+- `Input.jsx` - `py-3 min-h-11`
+- `BoneSelector.jsx` - `py-2.5 min-h-11` on bone items
+- `BoneControls.jsx` - `min-h-9` on quick buttons
+
+**Slider Controls:**
+- Custom CSS for larger thumbs (24x24px) in `src/index.css`
+- Track height: 8px for easier touch targeting
+
+**Touch CSS (`src/index.css`):**
+- `touch-action: manipulation` on buttons/links (prevents double-tap zoom)
+- `-webkit-overflow-scrolling: touch` for smooth iOS scrolling
+- Safe area inset support for notched devices
+
+**Responsive Layout (3D Pages):**
+- `md:flex-row` breakpoint for tablets in landscape
+- Control panel: `md:w-72 lg:w-80` width
+- Grid gaps increased from `gap-2` to `gap-3` for model selectors
 
 ### Light Reference (3D Feature)
 

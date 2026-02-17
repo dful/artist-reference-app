@@ -87,7 +87,7 @@ export const ModelSelector = () => {
       {/* Built-in models */}
       <div>
         <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Built-in</p>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-3">
           {builtInModels.map((model) => (
             <ModelThumbnail
               key={model.id}
@@ -103,7 +103,7 @@ export const ModelSelector = () => {
       {customPosableModels.length > 0 && (
         <div>
           <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Custom</p>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-3">
             {customPosableModels.map((model) => (
               <div key={model.id} className="relative group">
                 <ModelThumbnail

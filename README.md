@@ -1,6 +1,6 @@
 # Artist Reference App
 
-A web application for artists featuring color theory tools, reference image search, and 3D light reference capabilities.
+A Progressive Web App for artists featuring color theory tools, reference image search, and 3D light reference capabilities. Fully installable on iPad and optimized for touch interaction.
 
 ## Features
 
@@ -40,10 +40,18 @@ A web application for artists featuring color theory tools, reference image sear
 - Export posed models as GLB (baked geometry)
 - Export pose screenshots as PNG
 
+### PWA Support
+- Installable on iOS/iPadOS and Android devices
+- Works offline (cached static assets and models)
+- Full-screen mode without browser UI
+- Touch-optimized interface (44px minimum touch targets)
+- iPad-optimized responsive layout for 3D pages
+
 ## Tech Stack
 
 - **React 19** - UI framework
 - **Vite 6** - Build tool
+- **vite-plugin-pwa** - PWA support with service worker
 - **Tailwind CSS v4** - Styling
 - **React Router 7** - Routing
 - **Zustand** - State management
@@ -123,6 +131,29 @@ src/
 - Firefox 128+
 - Safari 16.4+
 - Edge 111+
+
+## Installing as PWA
+
+### iOS/iPadOS
+1. Open the app in Safari
+2. Tap the Share button
+3. Select "Add to Home Screen"
+4. The app will appear on your home screen and open in full-screen mode
+
+### Android
+1. Open the app in Chrome
+2. Tap the menu button (three dots)
+3. Select "Add to Home screen" or "Install app"
+4. The app will be installed and accessible from your app drawer
+
+## Touch Optimization
+
+The app is optimized for touch devices:
+- Minimum 44px touch targets (Apple HIG compliant)
+- Larger slider thumbs (24x24px) for easier manipulation
+- Touch-friendly toggles and buttons
+- Responsive layout adapts to tablet portrait/landscape
+- Safe area support for notched devices
 
 ## License
 

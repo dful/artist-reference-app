@@ -92,7 +92,7 @@ const BoneItem = ({ bone, level = 0, selectedBone, onSelect, expanded, onToggle 
       <button
         onClick={() => onSelect(bone.name)}
         onDoubleClick={() => hasChildren && onToggle(bone.name)}
-        className={`w-full flex items-center gap-1 px-2 py-1.5 rounded-lg text-left text-sm transition-colors
+        className={`w-full flex items-center gap-1 px-2 py-2.5 min-h-11 rounded-lg text-left text-sm transition-colors
           ${isSelected
             ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
             : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -106,7 +106,7 @@ const BoneItem = ({ bone, level = 0, selectedBone, onSelect, expanded, onToggle 
               e.stopPropagation();
               onToggle(bone.name);
             }}
-            className="p-0.5 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
+            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
           >
             {isExpanded ? (
               <ChevronDown className="w-3 h-3" />

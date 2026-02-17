@@ -3,7 +3,7 @@ import { useLightReferenceStore } from '../../stores/lightReferenceStore';
 import { ColorWheel } from '../color/ColorWheel';
 
 const SliderControl = ({ label, value, min, max, step = 1, unit = '', onChange }) => (
-  <div className="space-y-1">
+  <div className="space-y-2">
     <div className="flex justify-between text-sm">
       <span className="text-gray-600 dark:text-gray-400">{label}</span>
       <span className="text-gray-900 dark:text-white font-medium">
@@ -25,7 +25,7 @@ const SliderControl = ({ label, value, min, max, step = 1, unit = '', onChange }
 const LightButton = ({ lightId, icon: Icon, label, isSelected, isEnabled, onClick, onToggle }) => (
   <button
     onClick={onClick}
-    className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all w-full ${
+    className={`flex items-center gap-2 px-3 py-3 rounded-lg transition-all w-full min-h-11 ${
       isSelected
         ? 'bg-primary-100 dark:bg-primary-900/30 border-2 border-primary-500'
         : 'bg-gray-100 dark:bg-gray-800 border-2 border-transparent hover:bg-gray-200 dark:hover:bg-gray-700'
@@ -48,13 +48,13 @@ const LightButton = ({ lightId, icon: Icon, label, isSelected, isEnabled, onClic
         e.stopPropagation();
         onToggle();
       }}
-      className={`w-8 h-5 rounded-full transition-colors ${
+      className={`w-10 h-6 rounded-full transition-colors ${
         isEnabled ? 'bg-primary-500' : 'bg-gray-300 dark:bg-gray-600'
       }`}
     >
       <div
-        className={`w-4 h-4 rounded-full bg-white shadow transform transition-transform ${
-          isEnabled ? 'translate-x-3.5' : 'translate-x-0.5'
+        className={`w-5 h-5 rounded-full bg-white shadow transform transition-transform ${
+          isEnabled ? 'translate-x-4' : 'translate-x-0.5'
         }`}
       />
     </button>
@@ -178,13 +178,13 @@ export const LightControls = () => {
         </span>
         <button
           onClick={toggleHelpers}
-          className={`w-10 h-6 rounded-full transition-colors ${
+          className={`w-12 h-7 rounded-full transition-colors ${
             showHelpers ? 'bg-primary-500' : 'bg-gray-300 dark:bg-gray-600'
           }`}
         >
           <div
-            className={`w-5 h-5 rounded-full bg-white shadow transform transition-transform ${
-              showHelpers ? 'translate-x-4' : 'translate-x-0.5'
+            className={`w-6 h-6 rounded-full bg-white shadow transform transition-transform ${
+              showHelpers ? 'translate-x-5' : 'translate-x-0.5'
             }`}
           />
         </button>
