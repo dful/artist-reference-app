@@ -52,6 +52,8 @@ const SceneLights = () => {
           angle={0.5}
           penumbra={0.5}
           castShadow
+          shadow-mapSize={[2048, 2048]}
+          shadow-bias={-0.0001}
         />
       )}
       {showHelpers && lights.key.enabled && (

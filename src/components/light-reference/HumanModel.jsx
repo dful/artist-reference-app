@@ -24,65 +24,65 @@ const PrimitiveModel = () => {
   return (
     <group ref={meshRef} position={[position.x, position.y, position.z]} rotation={[0, (rotation * Math.PI) / 180, 0]} scale={scale}>
       {/* Head */}
-      <mesh position={[0, 1.6, 0]}>
+      <mesh position={[0, 1.6, 0]} castShadow receiveShadow>
         <sphereGeometry args={[0.25, 32, 32]} />
         <meshStandardMaterial color="#e0c8b0" roughness={0.8} />
       </mesh>
       {/* Neck */}
-      <mesh position={[0, 1.35, 0]}>
+      <mesh position={[0, 1.35, 0]} castShadow receiveShadow>
         <cylinderGeometry args={[0.08, 0.1, 0.2, 16]} />
         <meshStandardMaterial color="#e0c8b0" roughness={0.8} />
       </mesh>
       {/* Torso */}
-      <mesh position={[0, 0.9, 0]}>
+      <mesh position={[0, 0.9, 0]} castShadow receiveShadow>
         <boxGeometry args={[0.5, 0.7, 0.25]} />
         <meshStandardMaterial color="#4a5568" roughness={0.6} />
       </mesh>
       {/* Hips */}
-      <mesh position={[0, 0.45, 0]}>
+      <mesh position={[0, 0.45, 0]} castShadow receiveShadow>
         <boxGeometry args={[0.45, 0.2, 0.22]} />
         <meshStandardMaterial color="#4a5568" roughness={0.6} />
       </mesh>
       {/* Left arm */}
       <group position={[-0.35, 1.1, 0]}>
-        <mesh position={[-0.15, -0.15, 0]} rotation={[0, 0, 0.3]}>
+        <mesh position={[-0.15, -0.15, 0]} rotation={[0, 0, 0.3]} castShadow receiveShadow>
           <capsuleGeometry args={[0.06, 0.35, 8, 16]} />
           <meshStandardMaterial color="#e0c8b0" roughness={0.8} />
         </mesh>
-        <mesh position={[-0.3, -0.55, 0]} rotation={[0, 0, 0.1]}>
+        <mesh position={[-0.3, -0.55, 0]} rotation={[0, 0, 0.1]} castShadow receiveShadow>
           <capsuleGeometry args={[0.05, 0.3, 8, 16]} />
           <meshStandardMaterial color="#e0c8b0" roughness={0.8} />
         </mesh>
       </group>
       {/* Right arm */}
       <group position={[0.35, 1.1, 0]}>
-        <mesh position={[0.15, -0.15, 0]} rotation={[0, 0, -0.3]}>
+        <mesh position={[0.15, -0.15, 0]} rotation={[0, 0, -0.3]} castShadow receiveShadow>
           <capsuleGeometry args={[0.06, 0.35, 8, 16]} />
           <meshStandardMaterial color="#e0c8b0" roughness={0.8} />
         </mesh>
-        <mesh position={[0.3, -0.55, 0]} rotation={[0, 0, -0.1]}>
+        <mesh position={[0.3, -0.55, 0]} rotation={[0, 0, -0.1]} castShadow receiveShadow>
           <capsuleGeometry args={[0.05, 0.3, 8, 16]} />
           <meshStandardMaterial color="#e0c8b0" roughness={0.8} />
         </mesh>
       </group>
       {/* Left leg */}
       <group position={[-0.12, 0.35, 0]}>
-        <mesh position={[0, -0.25, 0]}>
+        <mesh position={[0, -0.25, 0]} castShadow receiveShadow>
           <capsuleGeometry args={[0.08, 0.4, 8, 16]} />
           <meshStandardMaterial color="#2d3748" roughness={0.7} />
         </mesh>
-        <mesh position={[0, -0.75, 0]}>
+        <mesh position={[0, -0.75, 0]} castShadow receiveShadow>
           <capsuleGeometry args={[0.06, 0.4, 8, 16]} />
           <meshStandardMaterial color="#2d3748" roughness={0.7} />
         </mesh>
       </group>
       {/* Right leg */}
       <group position={[0.12, 0.35, 0]}>
-        <mesh position={[0, -0.25, 0]}>
+        <mesh position={[0, -0.25, 0]} castShadow receiveShadow>
           <capsuleGeometry args={[0.08, 0.4, 8, 16]} />
           <meshStandardMaterial color="#2d3748" roughness={0.7} />
         </mesh>
-        <mesh position={[0, -0.75, 0]}>
+        <mesh position={[0, -0.75, 0]} castShadow receiveShadow>
           <capsuleGeometry args={[0.06, 0.4, 8, 16]} />
           <meshStandardMaterial color="#2d3748" roughness={0.7} />
         </mesh>
@@ -161,10 +161,12 @@ const GLTFModel = ({ modelId }) => {
 
         if (isMounted) {
           const cloned = loadedScene.clone();
-          // Disable frustum culling on all meshes to prevent disappearing when transformed
+          // Configure all meshes for shadows and prevent disappearing when transformed
           cloned.traverse((child) => {
             if (child.isMesh) {
               child.frustumCulled = false;
+              child.castShadow = true;
+              child.receiveShadow = true;
             }
           });
           setClonedScene(cloned);
